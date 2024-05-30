@@ -2,25 +2,43 @@
 import { useRef, useEffect, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../config/firebase";
+//Firebase Storage
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { createPortal } from "react-dom";
 
 function NewProductModal({ onClose }) {
   const productsCollectionRef = collection(db, "Products");
+
+  // Initialize Firebase Storage
+  const storage = getStorage();
 
   // HANDLE ONSUBMIT FORM
   const [newProductName, setNewProductName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newPrice, setNewPrice] = useState(0);
-  const [newImage, setNewImage] = useState("");
+  const [newImage, setNewImage] = useState(null);
 
   const onSubmitProduct = async (event) => {
     event.preventDefault();
+
+    if (!newImage) {
+      console.error("no Image file Selected");
+      return;
+    }
+
     try {
+      // ACCESS STORAGE FOR IMAGE UPLOADING
+      const imageRef = ref(storage, `products${newImage.name}`);
+      const snapshot = await uploadBytes(imageRef, newImage);
+      const imageUrl = await getDownloadURL(snapshot.ref);
+
       await addDoc(productsCollectionRef, {
         name: newProductName,
         description: newDescription,
         price: newPrice,
-        image: newImage,
+        image: imageUrl,
       });
+
       onClose();
     } catch (err) {
       console.error(err);
@@ -40,16 +58,22 @@ function NewProductModal({ onClose }) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       modal.close(); // needed to avoid error being thrown
+      document.body.style.overflow = "";
     };
   }, [onClose]);
 
-  return (
-    <dialog ref={dialog}>
-      <div className="rounded-lg py-6 px-4 mx-auto max-w-2xl lg:py-4">
+  const handleFileChange = (e) => {
+    setNewImage(e.target.files[0]);
+  };
+
+  return createPortal(
+    <dialog ref={dialog} className="rounded-lg">
+      <div className="py-6 px-4 mx-auto max-w-2xl lg:py-4">
         <h2 className="mb-4 text-xl font-bold text-gray-900">
           Add a new product
         </h2>
@@ -98,7 +122,7 @@ function NewProductModal({ onClose }) {
                 Image
               </label>
               <input
-                onChange={(e) => setNewImage(e.target.value)}
+                onChange={handleFileChange}
                 type="file"
                 name="price"
                 id="price"
@@ -133,7 +157,8 @@ function NewProductModal({ onClose }) {
           </button>
         </form>
       </div>
-    </dialog>
+    </dialog>,
+    document.getElementById("modal")
   );
 }
 

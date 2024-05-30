@@ -37,10 +37,12 @@ function LoginModal({ onClose }) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       modal.close(); // needed to avoid error being thrown
+      document.body.style.overflow = "";
     };
   }, [onClose]);
 

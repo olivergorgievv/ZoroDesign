@@ -7,12 +7,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC0AD0n4py3Ytq3EhyfjtCA0aUIbgy0wd8",
-  authDomain: "zonodesign-91178.firebaseapp.com",
-  projectId: "zonodesign-91178",
-  storageBucket: "zonodesign-91178.appspot.com",
-  messagingSenderId: "1097123109769",
-  appId: "1:1097123109769:web:e3c17488094927d96e9f58",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase

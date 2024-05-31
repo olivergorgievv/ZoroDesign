@@ -1,50 +1,27 @@
-/* eslint-disable react/prop-types */
+import { doc } from "firebase/firestore";
 import { useRef, useEffect, useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
-//Firebase Storage
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createPortal } from "react-dom";
+import { db } from "../config/firebase";
+import { updateDoc } from "firebase/firestore";
 
-function NewProductModal({ onClose }) {
-  const productsCollectionRef = collection(db, "Products");
+function UpdateProductModal({ onClose, props, id }) {
+  const [updateName, setUpdateName] = useState(props.name);
+  const [updatePrice, setUpdatePrice] = useState(props.price);
+  const [updateDescription, setUpdateDescription] = useState(props.description);
+  //   const [updateImage, setUpdateImage] = useState(props.image);
 
-  // Initialize Firebase Storage
-  const storage = getStorage();
-
-  // HANDLE ONSUBMIT FORM
-  const [newProductName, setNewProductName] = useState("");
-  const [newDescription, setNewDescription] = useState("");
-  const [newPrice, setNewPrice] = useState(0);
-  const [newImage, setNewImage] = useState(null);
-
-  const onSubmitProduct = async (event) => {
-    event.preventDefault();
-
-    if (!newImage) {
-      console.error("no Image file Selected");
-      return;
-    }
-
-    try {
-      // ACCESS STORAGE FOR IMAGE UPLOADING
-      const imageRef = ref(storage, `products${newImage.name}`);
-      const snapshot = await uploadBytes(imageRef, newImage);
-      const imageUrl = await getDownloadURL(snapshot.ref);
-
-      await addDoc(productsCollectionRef, {
-        name: newProductName,
-        description: newDescription,
-        price: newPrice,
-        image: imageUrl,
-      });
-      onClose();
-    } catch (err) {
-      console.error(err);
-    }
+  const updateProducts = async (e) => {
+    e.preventDefault();
+    const productDoc = doc(db, "Products", id);
+    await updateDoc(productDoc, {
+      name: updateName,
+      price: updatePrice,
+      describe: updateDescription,
+    });
+    onClose();
   };
-
-  // DIALOG LOGIC
+  // MODAL LOGIC
+  const [imagePreview, setImagePreview] = useState(props?.image || "");
   const dialog = useRef();
   useEffect(() => {
     const modal = dialog.current;
@@ -66,15 +43,12 @@ function NewProductModal({ onClose }) {
     };
   }, [onClose]);
 
-  const handleFileChange = (e) => {
-    setNewImage(e.target.files[0]);
-  };
-
   return createPortal(
     <dialog ref={dialog} className="rounded-lg">
       <div className="py-6 px-4 mx-auto max-w-2xl lg:py-4">
-        <h2 className="mb-4 text-xl font-bold text-gray-900">
-          Add a new product
+        <h2 className="mb-4 text-xl font-medium text-gray-500">
+          Update product{" "}
+          <span className="text-gray-900 font-bold ">{props.name}</span>
         </h2>
         <form action="#">
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -86,7 +60,8 @@ function NewProductModal({ onClose }) {
                 Product Name
               </label>
               <input
-                onChange={(e) => setNewProductName(e.target.value)}
+                onChange={(e) => setUpdateName(e.target.value)}
+                defaultValue={props.name}
                 type="text"
                 name="name"
                 id="name"
@@ -104,7 +79,8 @@ function NewProductModal({ onClose }) {
                 Price
               </label>
               <input
-                onChange={(e) => setNewPrice(Number(e.target.value))}
+                onChange={(e) => setUpdatePrice(Number(e.target.value))}
+                defaultValue={props.price}
                 type="number"
                 name="price"
                 id="price"
@@ -120,15 +96,30 @@ function NewProductModal({ onClose }) {
               >
                 Image
               </label>
-              <input
-                onChange={handleFileChange}
-                type="file"
-                name="price"
-                id="price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                placeholder="$2999"
-                required=""
-              />
+              {imagePreview && (
+                <>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setImagePreview("");
+                    }}
+                    className="inline-flex items-center px-5 py-[13px] text-sm font-medium text-center text-white bg-primary-red rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-hover"
+                  >
+                    Clear Image
+                  </button>
+                  <img src={imagePreview} />
+                </>
+              )}
+              {!imagePreview && (
+                <input
+                  type="file"
+                  name="price"
+                  id="price"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="$2999"
+                  required=""
+                />
+              )}
             </div>
 
             <div className="sm:col-span-2">
@@ -139,20 +130,20 @@ function NewProductModal({ onClose }) {
                 Description
               </label>
               <textarea
-                onChange={(e) => setNewDescription(e.target.value)}
+                onChange={(e) => setUpdateDescription(e.target.value)}
                 id="description"
                 rows={8}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                 placeholder="Your description here"
-                defaultValue={""}
+                defaultValue={props.description}
               />
             </div>
           </div>
           <button
-            onClick={onSubmitProduct}
+            onClick={updateProducts}
             className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-red rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-hover"
           >
-            Add product
+            Update Product
           </button>
         </form>
       </div>
@@ -161,4 +152,4 @@ function NewProductModal({ onClose }) {
   );
 }
 
-export default NewProductModal;
+export default UpdateProductModal;

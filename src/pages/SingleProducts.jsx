@@ -1,11 +1,25 @@
 import { useParams } from "react-router-dom";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import UpdateProductModal from "../components/UpdateProductModal";
 
 function SingleProducts() {
+  // MODAL STATE
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const navigate = useNavigate();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+
+  const deleteProduct = async () => {
+    const productDoc = doc(db, "Products", id);
+    await deleteDoc(productDoc);
+    navigate("/products");
+  };
+
+  // const updateProduct = async () => {};
 
   useEffect(() => {
     const getProduct = async () => {
@@ -32,8 +46,24 @@ function SingleProducts() {
     return <div>Loading...</div>;
   }
 
+  // DIALOG LOGIC
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+  //
   return (
     <>
+      {isModalOpen && (
+        <UpdateProductModal
+          props={product}
+          id={id}
+          onClose={handleCloseModal}
+        />
+      )}
       <section className="py-44 bg-white md:py-44 :bg-gray-900 antialiased">
         <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
@@ -124,32 +154,29 @@ function SingleProducts() {
               </div>
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                 <a
-                  href="#"
+                  onClick={deleteProduct}
                   title=""
-                  className="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 :focus:ring-gray-700 :bg-gray-800 :text-gray-400 :border-gray-600 :hover:text-white :hover:bg-gray-700"
+                  className="flex items-center gap-2 justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 :focus:ring-gray-700 :bg-gray-800 :text-gray-400 :border-gray-600 :hover:text-white :hover:bg-gray-700"
                   role="button"
                 >
                   <svg
-                    className="w-5 h-5 -ms-2 me-2"
+                    className="w-5 h-5 text-gray-800 dark:text-white"
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
-                    width={24}
-                    height={24}
+                    width="24"
+                    height="24"
                     fill="none"
                     viewBox="0 0 24 24"
                   >
                     <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
+                      stroke="black"
+                      d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                     />
                   </svg>
-                  Add to favorites
+                  Delete Product
                 </a>
                 <a
-                  href="#"
+                  onClick={handleOpenModal}
                   title=""
                   className="text-white mt-4 sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center"
                   role="button"

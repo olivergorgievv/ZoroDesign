@@ -19,6 +19,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Authentication
 export const auth = getAuth(app);
 
 // Google Login

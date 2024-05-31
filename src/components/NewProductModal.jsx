@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef, useEffect, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db, auth } from "../config/firebase";
 //Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createPortal } from "react-dom";
@@ -37,6 +37,7 @@ function NewProductModal({ onClose }) {
         description: newDescription,
         price: newPrice,
         image: imageUrl,
+        userId: auth?.currentUser?.uid,
       });
       onClose();
     } catch (err) {

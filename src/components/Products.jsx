@@ -5,11 +5,15 @@ import { getDocs, collection } from "firebase/firestore";
 import NewProductModal from "../components/NewProductModal";
 import plusIcon from "../assets/plusIcon.svg";
 import NoInfo from "./UI/NoInfo";
+import Loader from "./UI/Loader";
 
 function Products() {
+  // NO DATA AVAILABLE STATE
+  const [gotInfo, setGotInfo] = useState(false);
+  const [IsLoading, setIsLoading] = useState(false);
+
   // MODAL FOR ADDING PRODUCTS
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [gotInfo, setGotInfo] = useState(false);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -27,24 +31,27 @@ function Products() {
     const getProductList = async () => {
       try {
         const data = await getDocs(productsCollectionRef);
+        setIsLoading(true);
         const filteredData = data.docs.map((doc) => ({
           ...doc.data(),
           id: doc.id,
         }));
         setProductList(filteredData);
-        setGotInfo(filteredData.length > 0);
         console.log(filteredData);
+        setGotInfo(filteredData.length > 0);
       } catch (err) {
         console.error(err);
       }
     };
+    setIsLoading(false);
     getProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      {!gotInfo && (
+      {!IsLoading && <Loader />}
+      {IsLoading && !gotInfo && (
         <NoInfo
           message={"There are no available products!"}
           onClick={handleOpenModal}

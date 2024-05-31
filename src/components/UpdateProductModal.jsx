@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { db } from "../config/firebase";
 import { updateDoc } from "firebase/firestore";
-import Loader from "./UI/loader";
+import Loader from "./UI/Loader";
 
 function UpdateProductModal({ onClose, props, id }) {
   const [updateName, setUpdateName] = useState(props.name);
@@ -24,6 +24,7 @@ function UpdateProductModal({ onClose, props, id }) {
     onClose();
     setLoader(false);
   };
+
   // MODAL LOGIC
   const [imagePreview, setImagePreview] = useState(props?.image || "");
   const dialog = useRef();

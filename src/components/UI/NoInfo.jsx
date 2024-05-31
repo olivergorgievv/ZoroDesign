@@ -12,7 +12,7 @@ function NoInfo({ message, onClick }) {
             className="w-1/2 max-w-lg"
           />
         </div>
-        <div className=" mt-6 flex items-center justify-center h-full w-full">
+        <div className="mt-6 flex items-center justify-center h-full w-full">
           <h1 className="text-xl">
             {message}{" "}
             <a onClick={onClick} className="font-bold underline cursor-pointer">

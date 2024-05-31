@@ -1,10 +1,22 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../config/firebase";
+import { useState, useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ onOpenModal }) {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+
   const logOut = async () => {
     try {
       await signOut(auth);
@@ -12,7 +24,7 @@ function NavBar({ onOpenModal }) {
       console.error(err);
     }
   };
-
+  console.log(user?.photoURL);
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">
@@ -24,20 +36,44 @@ function NavBar({ onOpenModal }) {
             <img src={logo} className="h-8" alt="Flowbite Logo" />
           </a>
           <div className="flex gap-4 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            <button
-              onClick={logOut}
-              type="button"
-              className="text-gray-600 content-center flex border border-gray-300 hover:border-gray-500 focus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-            >
-              Log out
-            </button>
-            <button
-              onClick={onOpenModal}
-              type="button"
-              className="text-white bg-primary-red hover:bg-primary-hover focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-6 text-center"
-            >
-              Log in
-            </button>
+            {user && (
+              <>
+                <button
+                  onClick={logOut}
+                  type="button"
+                  className="text-gray-600 content-center flex border border-gray-300 hover:border-gray-500 focus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                >
+                  Log out
+                </button>
+                {(user.photoURL && (
+                  <img
+                    className="w-10 h-10 rounded-full"
+                    src={user.photoURL}
+                    alt="Rounded avatar"
+                  />
+                )) || (
+                  <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <svg
+                      className="absolute w-12 h-12 text-gray-200 -left-1"
+                      fill="#FF5E15"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"></path>
+                    </svg>
+                  </div>
+                )}
+              </>
+            )}
+            {!user && (
+              <button
+                onClick={onOpenModal}
+                type="button"
+                className="text-white bg-primary-red hover:bg-primary-hover content-center flex borderfocus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+              >
+                Log in
+              </button>
+            )}
             <button
               data-collapse-toggle="navbar-sticky"
               type="button"

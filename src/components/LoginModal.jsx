@@ -7,6 +7,7 @@ function LoginModal({ onClose }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // BASIC SIGNUP
   const signIn = async (event) => {
     event.preventDefault();
     try {
@@ -16,15 +17,18 @@ function LoginModal({ onClose }) {
     }
   };
 
+  // GOOGLE SIGNUP
   const signInWithGoogle = async (event) => {
     event.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
+      onClose();
     } catch (err) {
       console.error(err);
     }
   };
 
+  // DIALOG LOGIC
   const dialog = useRef();
   useEffect(() => {
     const modal = dialog.current;

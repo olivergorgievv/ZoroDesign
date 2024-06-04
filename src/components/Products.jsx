@@ -1,16 +1,21 @@
 import Card from "./UI/card";
-import { db } from "../config/firebase";
-import { useEffect, useState } from "react";
-import { getDocs, collection } from "firebase/firestore";
+import { useState } from "react";
 import NewProductModal from "../components/NewProductModal";
 import plusIcon from "../assets/plusIcon.svg";
 import NoInfo from "./UI/NoInfo";
 import Loader from "./UI/Loader";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "../utils/https";
 
 function Products() {
   // NO DATA AVAILABLE STATE
-  const [gotInfo, setGotInfo] = useState(false);
-  const [IsLoading, setIsLoading] = useState(false);
+  // const [gotInfo, setGotInfo] = useState(false);
+  // const [IsLoading, setIsLoading] = useState(false);
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["Products"],
+    queryFn: ({ signal }) => fetchProducts({ signal }),
+  });
 
   // MODAL FOR ADDING PRODUCTS
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,42 +28,42 @@ function Products() {
   };
   //
 
-  // FETCHING PRODUCTS
-  const [productList, setProductList] = useState([]);
-  const productsCollectionRef = collection(db, "Products");
+  // // FETCHING PRODUCTS
+  // const [productList, setProductList] = useState([]);
+  // // const productsCollectionRef = collection(db, "Products");
 
-  useEffect(() => {
-    const getProductList = async () => {
-      try {
-        const data = await getDocs(productsCollectionRef);
-        setIsLoading(true);
-        const filteredData = data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
-        setProductList(filteredData);
-        console.log(filteredData);
-        setGotInfo(filteredData.length > 0);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    setIsLoading(false);
-    getProductList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   const getProductList = async () => {
+  //     try {
+  //       const data = await getDocs(productsCollectionRef);
+  //       setIsLoading(true);
+  //       const filteredData = data.docs.map((doc) => ({
+  //         ...doc.data(),
+  //         id: doc.id,
+  //       }));
+  //       setProductList(filteredData);
+  //       console.log(filteredData);
+  //       setGotInfo(filteredData.length > 0);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+  //   setIsLoading(false);
+  //   getProductList();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   return (
     <>
-      {!IsLoading && <Loader />}
-      {IsLoading && !gotInfo && (
+      {isFetching && <Loader />}
+      {!data && !isFetching && (
         <NoInfo
           message={"There are no available products!"}
           onClick={handleOpenModal}
         />
       )}
       {isModalOpen && <NewProductModal onClose={handleCloseModal} />}
-      {gotInfo && (
+      {data && (
         <>
           {" "}
           <section className="mt-24 flex flex-wrap py-8 antialiased bg-white md:py-16">
@@ -76,7 +81,7 @@ function Products() {
                 </button>
               </div>
               <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 sm:mt-8">
-                {productList.map((product) => (
+                {data.map((product) => (
                   <Card key={product.id} id={product.id} props={product} />
                 ))}
               </div>

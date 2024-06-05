@@ -1,23 +1,37 @@
 import { useParams } from "react-router-dom";
 import { db } from "../config/firebase";
 import { useEffect, useState } from "react";
-import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useMutation } from "@tanstack/react-query";
+import { deleteProduct } from "../utils/https";
+import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import UpdateProductModal from "../components/UpdateProductModal";
 
 function SingleProducts() {
+  const { id } = useParams();
   // MODAL STATE
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { id } = useParams();
   const [product, setProduct] = useState(null);
 
-  const deleteProduct = async () => {
-    const productDoc = doc(db, "Products", id);
-    await deleteDoc(productDoc);
-    navigate("/products");
+  // Delete query
+
+  const { mutate } = useMutation({
+    mutationFn: () => deleteProduct({ id }),
+    onSuccess: () => {
+      navigate("/products");
+    },
+  });
+
+  const handleDelete = () => {
+    mutate();
   };
+
+  // const deleteProduct = async () => {
+  //   const productDoc = doc(db, "Products", id);
+  //   await deleteDoc(productDoc);
+  // };
 
   // const updateProduct = async () => {};
 
@@ -154,7 +168,7 @@ function SingleProducts() {
               </div>
               <div className="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
                 <a
-                  onClick={deleteProduct}
+                  onClick={handleDelete}
                   title=""
                   className="flex items-center gap-2 justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 :focus:ring-gray-700 :bg-gray-800 :text-gray-400 :border-gray-600 :hover:text-white :hover:bg-gray-700"
                   role="button"

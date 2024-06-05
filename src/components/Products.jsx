@@ -8,10 +8,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "../utils/https";
 
 function Products() {
-  // NO DATA AVAILABLE STATE
-  // const [gotInfo, setGotInfo] = useState(false);
-  // const [IsLoading, setIsLoading] = useState(false);
-
   const { data, isFetching } = useQuery({
     queryKey: ["Products"],
     queryFn: ({ signal }) => fetchProducts({ signal }),
@@ -26,32 +22,6 @@ function Products() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  //
-
-  // // FETCHING PRODUCTS
-  // const [productList, setProductList] = useState([]);
-  // // const productsCollectionRef = collection(db, "Products");
-
-  // useEffect(() => {
-  //   const getProductList = async () => {
-  //     try {
-  //       const data = await getDocs(productsCollectionRef);
-  //       setIsLoading(true);
-  //       const filteredData = data.docs.map((doc) => ({
-  //         ...doc.data(),
-  //         id: doc.id,
-  //       }));
-  //       setProductList(filteredData);
-  //       console.log(filteredData);
-  //       setGotInfo(filteredData.length > 0);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-  //   setIsLoading(false);
-  //   getProductList();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   return (
     <>

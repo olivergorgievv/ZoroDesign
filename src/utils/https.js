@@ -9,7 +9,6 @@ export const fetchProducts = async ({ id }) => {
       // Fetch single product by ID
       const productDocRef = doc(db, "Products", id);
       const docSnap = await getDoc(productDocRef);
-
       if (docSnap.exists()) {
         const productData = {
           ...docSnap.data(),
@@ -44,10 +43,7 @@ export const deleteProduct = async ({ id }) => {
 
 // UPDATE AN EVENT
 
-export const updateProducts = async (
-  props
-  // updateImg
-) => {
+export const updateProducts = async (props) => {
   const productDoc = doc(db, "Products", props.id);
   await updateDoc(productDoc, {
     name: props.updateName,

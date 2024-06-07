@@ -14,20 +14,22 @@ function Card({ props, loginModal }) {
     <div
       className={`${
         !user && "border-[1.5px] border-gray-300 rounded-lg"
-      } relative flex justify-center items-center h-full`}
+      } relative flex justify-center items-center h-full `}
     >
       {!user && (
         <button
           onClick={loginModal}
           type="button"
-          className=" absolute z-10 text-white flex bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="absolute z-10 text-white flex bg-gray-600 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all delay-100"
         >
           Log in to see product info
         </button>
       )}
 
       <div
-        className={`${blur} space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm :border-gray-700 :bg-gray-800`}
+        className={`${blur} ${
+          !user && "pointer-events-none select-none"
+        } space-y-6 overflow-hidden rounded-lg border border-gray-200 bg-white p-6 shadow-sm :border-gray-700 :bg-gray-800`}
       >
         <Link to={`/products/${props.id}`} className="overflow-hidden rounded">
           <img

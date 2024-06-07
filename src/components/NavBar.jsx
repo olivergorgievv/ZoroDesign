@@ -1,30 +1,10 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../config/firebase";
-import { useState, useEffect } from "react";
+import { useAuthentication } from "../utils/auth.js";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ onOpenModal }) {
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  const logOut = async () => {
-    try {
-      await signOut(auth);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-  console.log(user?.photoURL);
+  const { user, logOut } = useAuthentication();
   return (
     <>
       <nav className="bg-white fixed w-full z-20 top-0 start-0 border-b border-gray-200">

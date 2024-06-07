@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../config/firebase";
+
 //Firebase Storage
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createPortal } from "react-dom";
@@ -26,8 +27,9 @@ function NewProductModal({ onClose }) {
       return;
     }
 
+    // ACCESS STORAGE FOR IMAGE UPLOADING
+
     try {
-      // ACCESS STORAGE FOR IMAGE UPLOADING
       const imageRef = ref(storage, `products${newImage.name}`);
       const snapshot = await uploadBytes(imageRef, newImage);
       const imageUrl = await getDownloadURL(snapshot.ref);

@@ -5,7 +5,7 @@ import { deleteProduct } from "../utils/https";
 import { useNavigate } from "react-router-dom";
 import UpdateProductModal from "../components/UpdateProductModal";
 import Loader from "../components/UI/Loader";
-import { fetchSingleProducts } from "../utils/https";
+import { fetchProducts } from "../utils/https";
 
 function SingleProducts() {
   const { id } = useParams();
@@ -34,8 +34,9 @@ function SingleProducts() {
     error,
   } = useQuery({
     queryKey: ["Product", id], // Specify the query key as an array
-    queryFn: () => fetchSingleProducts({ id }), // Pass a function that returns a promise to fetch the data
+    queryFn: () => fetchProducts({ id }), // Pass a function that returns a promise to fetch the data
   });
+
   if (isLoading) {
     return <Loader />;
   }

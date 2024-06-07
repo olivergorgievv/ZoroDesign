@@ -1,28 +1,29 @@
-import { doc } from "firebase/firestore";
 import { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { db } from "../config/firebase";
-import { updateDoc } from "firebase/firestore";
 import Loader from "./UI/Loader";
+import { useMutation } from "@tanstack/react-query";
+import { updateProducts } from "../utils/https";
+import { useNavigate } from "react-router-dom";
 
 function UpdateProductModal({ onClose, props, id }) {
+  const navigate = useNavigate();
   const [updateName, setUpdateName] = useState(props.name);
   const [updatePrice, setUpdatePrice] = useState(props.price);
   const [updateDescription, setUpdateDescription] = useState(props.description);
-  const [loader, setLoader] = useState(false);
   //   const [updateImage, setUpdateImage] = useState(props.image);
 
-  const updateProducts = async (e) => {
-    setLoader(true);
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      updateProducts({ id, updatePrice, updateDescription, updateName }),
+    onSuccess: () => {
+      navigate(`/products/${id}`);
+      onClose();
+    },
+  });
+
+  const handleUpdate = (e) => {
     e.preventDefault();
-    const productDoc = doc(db, "Products", id);
-    await updateDoc(productDoc, {
-      name: updateName,
-      price: updatePrice,
-      description: updateDescription,
-    });
-    onClose();
-    setLoader(false);
+    mutate();
   };
 
   // MODAL LOGIC
@@ -52,8 +53,8 @@ function UpdateProductModal({ onClose, props, id }) {
     <>
       <dialog ref={dialog} className="rounded-lg">
         <div className="py-6 px-4 mx-auto max-w-2xl lg:py-4">
-          {loader && <Loader />}
-          {!loader && (
+          {isPending && <Loader />}
+          {!isPending && (
             <>
               <h2 className="mb-4 text-xl font-medium text-gray-500">
                 Update product{" "}
@@ -148,7 +149,7 @@ function UpdateProductModal({ onClose, props, id }) {
                   </div>
                 </div>
                 <button
-                  onClick={updateProducts}
+                  onClick={handleUpdate}
                   className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-red rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-hover"
                 >
                   Update Product

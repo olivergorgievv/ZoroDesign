@@ -1,23 +1,22 @@
 import { useParams } from "react-router-dom";
-import { db } from "../config/firebase";
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { deleteProduct } from "../utils/https";
-import { doc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import UpdateProductModal from "../components/UpdateProductModal";
+import Loader from "../components/UI/Loader";
+import { fetchSingleProducts } from "../utils/https";
 
 function SingleProducts() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   // MODAL STATE
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  // DELETE PRODUCT
 
-  // Delete query
-
-  const { mutate } = useMutation({
+  const { mutate, isPending: isPendingDeletion } = useMutation({
     mutationFn: () => deleteProduct({ id }),
     onSuccess: () => {
       navigate("/products");
@@ -28,36 +27,21 @@ function SingleProducts() {
     mutate();
   };
 
-  // const deleteProduct = async () => {
-  //   const productDoc = doc(db, "Products", id);
-  //   await deleteDoc(productDoc);
-  // };
+  // FETCHING PRODUCTS AN INDIVIDUAL ID
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["Product", id], // Specify the query key as an array
+    queryFn: () => fetchSingleProducts({ id }), // Pass a function that returns a promise to fetch the data
+  });
+  if (isLoading) {
+    return <Loader />;
+  }
 
-  // const updateProduct = async () => {};
-
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const productDocRef = doc(db, "Products", id);
-        const docSnap = await getDoc(productDocRef);
-
-        if (docSnap.exists()) {
-          setProduct({ id: docSnap.id, ...docSnap.data() });
-        } else {
-          console.log("No such document!");
-        }
-      } catch (err) {
-        console.error("Error fetching document:", err);
-      }
-    };
-
-    if (id) {
-      getProduct();
-    }
-  }, [id]);
-
-  if (!product) {
-    return <div>Loading...</div>;
+  if (error) {
+    return <div>Error: {error.message}</div>;
   }
 
   // DIALOG LOGIC
@@ -68,7 +52,7 @@ function SingleProducts() {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  //
+
   return (
     <>
       {isModalOpen && (
@@ -77,6 +61,11 @@ function SingleProducts() {
           id={id}
           onClose={handleCloseModal}
         />
+      )}
+      {isPendingDeletion && (
+        <section className=" w-full h-screen ">
+          <Loader />
+        </section>
       )}
       <section className="py-44 bg-white md:py-44 :bg-gray-900 antialiased">
         <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">

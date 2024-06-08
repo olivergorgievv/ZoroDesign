@@ -1,4 +1,4 @@
-function Loader() {
+function Loader({ message }) {
   return (
     <>
       <div className="py-96 bg-transparent ">
@@ -20,7 +20,7 @@ function Loader() {
                 fill="currentFill"
               />
             </svg>
-            <span className="sr-only">Loading...</span>
+            <span className="text-5xl">{message}</span>
           </div>
         </div>
       </div>

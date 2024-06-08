@@ -1,9 +1,10 @@
 import { db } from "../config/firebase";
-import { doc, deleteDoc, updateDoc } from "firebase/firestore";
+import { doc, deleteDoc, updateDoc, addDoc } from "firebase/firestore";
 import { getDocs, getDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-// FETCH ALL EVENTS
+const storage = getStorage();
+
 export const fetchProducts = async ({ id }) => {
   try {
     if (id) {
@@ -35,17 +36,16 @@ export const fetchProducts = async ({ id }) => {
   }
 };
 
-// DELETE AN EVENT
+// DELETE A PRODUCT
 export const deleteProduct = async ({ id }) => {
   const productDoc = doc(db, "Products", id);
   await deleteDoc(productDoc);
   // navigate("/products");
 };
 
-// UPDATE AN EVENT
+// UPDATE A PRODUCT
 
 export const updateProducts = async (props) => {
-  const storage = getStorage();
   const imageRef = ref(storage, `products${props.updateImage.name}`);
   const snapshot = await uploadBytes(imageRef, props.updateImage);
   const imageUrl = await getDownloadURL(snapshot.ref);
@@ -58,4 +58,21 @@ export const updateProducts = async (props) => {
   });
 };
 
-// LOGIN STATE
+export const addProduct = async (props) => {
+  const productsCollectionRef = collection(db, "Products");
+
+  try {
+    const imageRef = ref(storage, `products${props.newImage.name}`);
+    const snapshot = await uploadBytes(imageRef, props.newImage);
+    const imageUrl = await getDownloadURL(snapshot.ref);
+    await addDoc(productsCollectionRef, {
+      name: props.newProductName,
+      description: props.newDescription,
+      price: props.newPrice,
+      image: imageUrl,
+      userId: props.auth?.currentUser?.uid,
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};

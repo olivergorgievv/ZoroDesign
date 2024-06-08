@@ -1,51 +1,62 @@
 /* eslint-disable react/prop-types */
 import { useRef, useEffect, useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db, auth } from "../config/firebase";
-
+import { auth } from "../config/firebase";
+import { useMutation } from "@tanstack/react-query";
 //Firebase Storage
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { createPortal } from "react-dom";
+import { addProduct } from "../utils/https";
+import Loader from "./UI/Loader";
 
 function NewProductModal({ onClose }) {
-  const productsCollectionRef = collection(db, "Products");
-
-  // Initialize Firebase Storage
-  const storage = getStorage();
-
   // HANDLE ONSUBMIT FORM
   const [newProductName, setNewProductName] = useState("");
   const [newDescription, setNewDescription] = useState("");
   const [newPrice, setNewPrice] = useState(0);
   const [newImage, setNewImage] = useState(null);
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: () =>
+      addProduct({
+        auth,
+        newProductName,
+        newDescription,
+        newPrice,
+        newImage,
+      }),
+    onSuccess: () => {
+      // navigate(`/products/${id}`);
+      onClose();
+    },
+  });
+
   const onSubmitProduct = async (event) => {
     event.preventDefault();
-
+    mutate();
     if (!newImage) {
       console.error("no Image file Selected");
       return;
     }
-
-    // ACCESS STORAGE FOR IMAGE UPLOADING
-
-    try {
-      const imageRef = ref(storage, `products${newImage.name}`);
-      const snapshot = await uploadBytes(imageRef, newImage);
-      const imageUrl = await getDownloadURL(snapshot.ref);
-
-      await addDoc(productsCollectionRef, {
-        name: newProductName,
-        description: newDescription,
-        price: newPrice,
-        image: imageUrl,
-        userId: auth?.currentUser?.uid,
-      });
-      onClose();
-    } catch (err) {
-      console.error(err);
-    }
   };
+
+  //   // ACCESS STORAGE FOR IMAGE UPLOADING
+
+  //   try {
+  //     const imageRef = ref(storage, `products${newImage.name}`);
+  //     const snapshot = await uploadBytes(imageRef, newImage);
+  //     const imageUrl = await getDownloadURL(snapshot.ref);
+
+  //     await addDoc(productsCollectionRef, {
+  //       name: newProductName,
+  //       description: newDescription,
+  //       price: newPrice,
+  //       image: imageUrl,
+  //       userId: auth?.currentUser?.uid,
+  //     });
+  //     onClose();
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
   // DIALOG LOGIC
   const dialog = useRef();
@@ -75,6 +86,7 @@ function NewProductModal({ onClose }) {
 
   return createPortal(
     <dialog ref={dialog} className="rounded-lg">
+      {isPending && <Loader message={"Adding new Product"} />}
       <div className="py-6 px-4 mx-auto max-w-2xl lg:py-4">
         <h2 className="mb-4 text-xl font-bold text-gray-900">
           Add a new product

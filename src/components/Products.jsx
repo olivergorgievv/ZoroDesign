@@ -52,7 +52,10 @@ function Products() {
         <>
           <section className="mt-24 flex flex-wrap py-8 antialiased bg-white md:py-16">
             <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
-              <div className="flex justify-end gap-3 items-end">
+              <div className="flex flex-col items-start md:flex-row md:items-end">
+                <h1 className="max-w-lg mb-4 text-3xl mr-auto font-extrabold tracking-tight leading-none md:text-3xl xl:text-4xl text-gray-900">
+                  Choose your faviourite t-shirt you want to customize!
+                </h1>
                 {(user && (
                   <button
                     onClick={handleOpenModal}

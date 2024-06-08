@@ -10,11 +10,18 @@ function UpdateProductModal({ onClose, props, id }) {
   const [updateName, setUpdateName] = useState(props.name);
   const [updatePrice, setUpdatePrice] = useState(props.price);
   const [updateDescription, setUpdateDescription] = useState(props.description);
-  //   const [updateImage, setUpdateImage] = useState(props.image);
+  const [updateImage, setUpdateImage] = useState(props.image);
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
-      updateProducts({ id, updatePrice, updateDescription, updateName }),
+      updateProducts({
+        id,
+        updatePrice,
+        updateDescription,
+        updateName,
+        updateImage,
+      }),
+
     onSuccess: () => {
       navigate(`/products/${id}`);
       onClose();
@@ -24,6 +31,11 @@ function UpdateProductModal({ onClose, props, id }) {
   const handleUpdate = (e) => {
     e.preventDefault();
     mutate();
+  };
+
+  const handleFileChange = (e) => {
+    setUpdateImage(e.target.files[0]);
+    console.log(updateImage);
   };
 
   // MODAL LOGIC
@@ -122,6 +134,7 @@ function UpdateProductModal({ onClose, props, id }) {
                     )}
                     {!imagePreview && (
                       <input
+                        onChange={handleFileChange}
                         type="file"
                         name="price"
                         id="price"

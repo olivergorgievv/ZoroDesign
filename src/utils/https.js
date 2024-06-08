@@ -1,6 +1,7 @@
 import { db } from "../config/firebase";
 import { doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { getDocs, getDoc, collection } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // FETCH ALL EVENTS
 export const fetchProducts = async ({ id }) => {
@@ -44,11 +45,16 @@ export const deleteProduct = async ({ id }) => {
 // UPDATE AN EVENT
 
 export const updateProducts = async (props) => {
+  const storage = getStorage();
+  const imageRef = ref(storage, `products${props.updateImage.name}`);
+  const snapshot = await uploadBytes(imageRef, props.updateImage);
+  const imageUrl = await getDownloadURL(snapshot.ref);
   const productDoc = doc(db, "Products", props.id);
   await updateDoc(productDoc, {
     name: props.updateName,
     price: props.updatePrice,
     description: props.updateDescription,
+    image: imageUrl,
   });
 };
 

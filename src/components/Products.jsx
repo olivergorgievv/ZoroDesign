@@ -8,8 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProducts } from "../utils/https";
 import { useAuthentication } from "../utils/auth.js";
 import LoginModal from "./LoginModal";
+import CallToAction from "./CallToAction.jsx";
+import { useLocation } from "react-router-dom";
 
 function Products() {
+  const location = useLocation();
+  console.log(location);
   const { user } = useAuthentication();
   console.log(user);
 
@@ -89,6 +93,7 @@ function Products() {
               </div>
             </div>
           </section>
+          {location.pathname === "/products" && <CallToAction />}
         </>
       )}
     </>

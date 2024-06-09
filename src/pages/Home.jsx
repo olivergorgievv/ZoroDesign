@@ -13,7 +13,7 @@ function Home() {
       <LeftCTA />
       <Features />
       <Products />
-      {location !== "/" && <CallToAction />}
+      {location.pathname === "/" && <CallToAction />}
     </>
   );
 }

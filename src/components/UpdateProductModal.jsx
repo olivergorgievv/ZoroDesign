@@ -30,11 +30,13 @@ function UpdateProductModal({ onClose, id }) {
         updateImage,
       }),
 
-    onSuccess: () => {
+    onMutate: () => {
       queryClient.invalidateQueries({
         queryKey: ["Products"],
       });
       navigate(`/products/${id}`);
+    },
+    onSuccess: () => {
       onClose();
     },
   });

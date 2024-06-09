@@ -1,16 +1,24 @@
 import { useRef, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import Loader from "./UI/Loader";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { updateProducts } from "../utils/https";
 import { useNavigate } from "react-router-dom";
+import { fetchProducts } from "../utils/https";
+import { queryClient } from "../utils/https";
 
-function UpdateProductModal({ onClose, props, id }) {
+function UpdateProductModal({ onClose, id }) {
+  // Fetch individual Product by it's id
+  const { data } = useQuery({
+    queryKey: ["Product", id], // Specify the query key as an array
+    queryFn: () => fetchProducts({ id }), // Pass a function that returns a promise to fetch the data
+  });
+
   const navigate = useNavigate();
-  const [updateName, setUpdateName] = useState(props.name);
-  const [updatePrice, setUpdatePrice] = useState(props.price);
-  const [updateDescription, setUpdateDescription] = useState(props.description);
-  const [updateImage, setUpdateImage] = useState(props.image);
+  const [updateName, setUpdateName] = useState(data.name);
+  const [updatePrice, setUpdatePrice] = useState(data.price);
+  const [updateDescription, setUpdateDescription] = useState(data.description);
+  const [updateImage, setUpdateImage] = useState(data.image);
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
@@ -23,6 +31,9 @@ function UpdateProductModal({ onClose, props, id }) {
       }),
 
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["Products"],
+      });
       navigate(`/products/${id}`);
       onClose();
     },
@@ -34,12 +45,17 @@ function UpdateProductModal({ onClose, props, id }) {
   };
 
   const handleFileChange = (e) => {
-    setUpdateImage(e.target.files[0]);
-    console.log(updateImage);
+    const file = e.target.files[0];
+    if (file) {
+      setUpdateImage(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
   // MODAL LOGIC
-  const [imagePreview, setImagePreview] = useState(props?.image || "");
+  const [imagePreview, setImagePreview] = useState(data?.image || "");
+  console.log(imagePreview);
+
   const dialog = useRef();
   useEffect(() => {
     const modal = dialog.current;
@@ -70,7 +86,7 @@ function UpdateProductModal({ onClose, props, id }) {
             <>
               <h2 className="mb-4 text-xl font-medium text-gray-500">
                 Update product{" "}
-                <span className="text-gray-900 font-bold ">{props.name}</span>
+                <span className="text-gray-900 font-bold ">{data.name}</span>
               </h2>
               <form action="#">
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -83,7 +99,7 @@ function UpdateProductModal({ onClose, props, id }) {
                     </label>
                     <input
                       onChange={(e) => setUpdateName(e.target.value)}
-                      defaultValue={props.name}
+                      defaultValue={data.name}
                       type="text"
                       name="name"
                       id="name"
@@ -102,7 +118,7 @@ function UpdateProductModal({ onClose, props, id }) {
                     </label>
                     <input
                       onChange={(e) => setUpdatePrice(Number(e.target.value))}
-                      defaultValue={props.price}
+                      defaultValue={data.price}
                       type="number"
                       name="price"
                       id="price"
@@ -157,7 +173,7 @@ function UpdateProductModal({ onClose, props, id }) {
                       id="description"
                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Your description here"
-                      defaultValue={props.description}
+                      defaultValue={data.description}
                     />
                   </div>
                 </div>

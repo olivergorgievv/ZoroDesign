@@ -14,7 +14,7 @@ function NoInfo({ message, onClick }) {
         </div>
         <div className="mt-6 flex items-center justify-center h-full w-full">
           <h1 className="text-xl">
-            {message}{" "}
+            {message}
             <a onClick={onClick} className="font-bold underline cursor-pointer">
               tap to add products!
             </a>

@@ -2,8 +2,10 @@ import { db } from "../config/firebase";
 import { doc, deleteDoc, updateDoc, addDoc } from "firebase/firestore";
 import { getDocs, getDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { QueryClient } from "@tanstack/react-query";
 
 const storage = getStorage();
+export const queryClient = new QueryClient();
 
 export const fetchProducts = async ({ id }) => {
   try {
@@ -46,9 +48,12 @@ export const deleteProduct = async ({ id }) => {
 // UPDATE A PRODUCT
 
 export const updateProducts = async (props) => {
-  const imageRef = ref(storage, `products${props.updateImage.name}`);
-  const snapshot = await uploadBytes(imageRef, props.updateImage);
-  const imageUrl = await getDownloadURL(snapshot.ref);
+  let imageUrl = props.updateImage;
+  if (props.updateImage instanceof File) {
+    const imageRef = ref(storage, `products${props.updateImage.name}`);
+    const snapshot = await uploadBytes(imageRef, props.updateImage);
+    imageUrl = await getDownloadURL(snapshot.ref);
+  }
   const productDoc = doc(db, "Products", props.id);
   await updateDoc(productDoc, {
     name: props.updateName,
@@ -58,6 +63,7 @@ export const updateProducts = async (props) => {
   });
 };
 
+// ADD A PRODUCT
 export const addProduct = async (props) => {
   const productsCollectionRef = collection(db, "Products");
 

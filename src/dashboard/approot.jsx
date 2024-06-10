@@ -1,4 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import logo from "../assets/logo.svg";
+import ProductTable from "./ProductTable";
 
 function Approot() {
   return (
@@ -51,7 +53,7 @@ function Approot() {
                 <label htmlFor="topbar-search" className="sr-only">
                   Search
                 </label>
-                <div className="relative md:w-64 md:w-96">
+                <div className="relative md:w-64">
                   <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                     <svg
                       className="w-5 h-5 text-gray-500 :text-gray-400"
@@ -118,7 +120,7 @@ function Approot() {
               </button>
               {/* Dropdown menu */}
               <div
-                className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg :divide-gray-600 :bg-gray-700 rounded-xl"
+                className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg :divide-gray-600 :bg-gray-700"
                 id="notification-dropdown"
               >
                 <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 :bg-gray-600 :text-gray-300">
@@ -361,7 +363,7 @@ function Approot() {
               </button>
               {/* Dropdown menu */}
               <div
-                className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg :bg-gray-700 :divide-gray-600 rounded-xl"
+                className="hidden overflow-hidden z-50 my-4 max-w-sm text-base list-none bg-white rounded divide-y divide-gray-100 shadow-lg :bg-gray-700 :divide-gray-600"
                 id="apps-dropdown"
               >
                 <div className="block py-2 px-4 text-base font-medium text-center text-gray-700 bg-gray-50 :bg-gray-600 :text-gray-300">
@@ -575,7 +577,7 @@ function Approot() {
               </button>
               {/* Dropdown menu */}
               <div
-                className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow :bg-gray-700 :divide-gray-600 rounded-xl"
+                className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow :bg-gray-700 :divide-gray-600"
                 id="dropdown"
               >
                 <div className="py-3 px-4">
@@ -1281,13 +1283,14 @@ function Approot() {
           </div>
         </aside>
         <main className="p-4 md:ml-64 h-auto pt-20">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <ProductTable />
+          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <div className="border-2 border-dashed border-gray-300 rounded-lg :border-gray-600 h-32 md:h-64" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-32 md:h-64" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-32 md:h-64" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-32 md:h-64" />
-          </div>
-          <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-96 mb-4" />
+          </div> */}
+          {/* <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-96 mb-4" />
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-48 md:h-72" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-48 md:h-72" />
@@ -1300,7 +1303,7 @@ function Approot() {
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-48 md:h-72" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-48 md:h-72" />
             <div className="border-2 border-dashed rounded-lg border-gray-300 :border-gray-600 h-48 md:h-72" />
-          </div>
+          </div> */}
         </main>
       </div>
     </>

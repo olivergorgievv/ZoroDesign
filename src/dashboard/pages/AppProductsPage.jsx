@@ -1,4 +1,4 @@
-import ProductTable from "../ProductTable";
+import ProductTable from "../components/ProductTable";
 
 function AppProductsPage() {
   return (

@@ -1,9 +1,9 @@
 import ProductRows from "./ProductRows";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../utils/https";
+import { fetchProducts } from "../../utils/https";
 import { useState } from "react";
-import Loader from "../components/UI/Loader";
-import NewProductModal from "../components/NewProductModal";
+import Loader from "../../components/UI/Loader";
+import NewProductModal from "../../components/NewProductModal";
 
 /* eslint-disable react/no-unescaped-entities */
 

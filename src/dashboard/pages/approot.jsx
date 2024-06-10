@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 import { Outlet } from "react-router-dom";
 import logo from "../../assets/logo.svg";
-
-import Sidebar from "../Sidebar";
+import Sidebar from "../components/Sidebar";
 
 function Approot() {
   return (

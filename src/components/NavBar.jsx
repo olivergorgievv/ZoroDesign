@@ -17,7 +17,13 @@ function NavBar({ onOpenModal }) {
           </a>
           <div className="flex gap-4 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user && (
-              <>
+              <div className="flex items-center space-x-4">
+                <NavLink
+                  to="/app"
+                  className={`align-center rounded hover:bg-gray-100 md:hover:bg-transparent`}
+                >
+                  Dashboard
+                </NavLink>
                 <button
                   onClick={logOut}
                   type="button"
@@ -43,16 +49,18 @@ function NavBar({ onOpenModal }) {
                     </svg>
                   </div>
                 )}
-              </>
+              </div>
             )}
             {!user && (
-              <button
-                onClick={onOpenModal}
-                type="button"
-                className="text-white bg-primary-red hover:bg-primary-hover content-center flex borderfocus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center "
-              >
-                Log in
-              </button>
+              <>
+                <button
+                  onClick={onOpenModal}
+                  type="button"
+                  className="text-white bg-primary-red hover:bg-primary-hover content-center flex borderfocus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+                >
+                  Log in
+                </button>
+              </>
             )}
             <button
               data-collapse-toggle="navbar-sticky"

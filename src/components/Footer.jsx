@@ -2,7 +2,7 @@ import logo from "../assets/logo.svg";
 
 function Footer() {
   return (
-    <footer className="bg-gray-50 ">
+    <footer className="bg-white ">
       <div className="p-4 py-6 mx-auto max-w-screen-xl md:p-8 lg:-10">
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-6">
           <div className="col-span-2">

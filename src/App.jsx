@@ -8,6 +8,9 @@ import ProductsPage from "./pages/ProductsPage";
 import SingleProducts from "./pages/SingleProducts";
 import { QueryClientProvider } from "@tanstack/react-query";
 
+// Application
+import Approot from "./dashboard/approot";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +23,10 @@ const router = createBrowserRouter([
         children: [{ path: ":id", element: <SingleProducts /> }],
       },
     ],
+  },
+  {
+    path: "/app",
+    element: <Approot />,
   },
 ]);
 

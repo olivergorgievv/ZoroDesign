@@ -19,7 +19,7 @@ function NavBar({ onOpenModal }) {
             {user && (
               <div className="flex items-center space-x-4">
                 <NavLink
-                  to="/app"
+                  to={"/app/products"}
                   className={`align-center rounded hover:bg-gray-100 md:hover:bg-transparent`}
                 >
                   Dashboard

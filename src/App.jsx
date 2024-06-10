@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { queryClient } from "./utils/https";
 
-// Pages
+// Website
 import RootPage from "./pages/Root";
 import Home from "./pages/Home";
 import ProductsPage from "./pages/ProductsPage";
@@ -9,7 +9,9 @@ import SingleProducts from "./pages/SingleProducts";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 // Application
-import Approot from "./dashboard/approot";
+import Approot from "./dashboard/pages/approot";
+import AppProductsPage from "./dashboard/pages/AppProductsPage";
+import Authentication from "./dashboard/pages/Authentication";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,17 @@ const router = createBrowserRouter([
   {
     path: "/app",
     element: <Approot />,
+    children: [
+      {
+        path: "products",
+        element: <AppProductsPage />,
+        index: true,
+      },
+      {
+        path: "authentication",
+        element: <Authentication />,
+      },
+    ],
   },
 ]);
 

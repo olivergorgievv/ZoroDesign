@@ -111,7 +111,7 @@ function NavBar({ onOpenModal }) {
                   className={({ isActive }) =>
                     `${
                       isActive ? "text-primary-red" : "text-gray-900"
-                    } block py-2 px-3  rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0`
+                    } block py-2 px-3 rounded hover:text-primary-red md:hover:bg-transparent md:p-0`
                   }
                 >
                   Products

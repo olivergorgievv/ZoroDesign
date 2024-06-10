@@ -21,7 +21,7 @@ function Loader({ message }) {
                 fill="currentFill"
               />
             </svg>
-            <span className="text-5xl">{message}</span>
+            <span className="text-2xl">{message}</span>
           </div>
         </div>
       </div>

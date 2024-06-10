@@ -365,11 +365,11 @@ function ProductTable() {
                   <tbody>
                     {isFetching && (
                       <div className="w-auto h-[500px] flex justify-center items-center">
-                        <Loader />{" "}
+                        <Loader />
                       </div>
                     )}
-
-                    {data &&
+                    {!isFetching &&
+                      data &&
                       data.map((product) => (
                         <ProductRows
                           key={product.id}

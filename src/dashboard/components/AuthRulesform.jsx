@@ -1,14 +1,4 @@
-import { fetchRules } from "../../utils/firestoreRules";
-import { useQuery } from "@tanstack/react-query";
-
 function AuthRulesform() {
-  const { data } = useQuery({
-    queryKey: ["firestoreRules"],
-    queryFn: fetchRules,
-  });
-
-  console.log({ data });
-
   return (
     <>
       <section className="bg-white :bg-gray-900">

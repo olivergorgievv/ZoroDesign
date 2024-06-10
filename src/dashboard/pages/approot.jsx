@@ -2,8 +2,12 @@
 import { Outlet } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import Sidebar from "../components/Sidebar";
+import { Dropdown, Avatar } from "flowbite-react";
+import { useAuthentication } from "../../utils/auth";
+import { Link } from "react-router-dom";
 
 function Approot() {
+  const { user, logOut } = useAuthentication();
   return (
     <>
       <div className="antialiased bg-gray-50 :bg-gray-900">
@@ -393,7 +397,31 @@ function Approot() {
                   </a>
                 </div>
               </div>
-              <button
+              {user && (
+                <div className="pl-4">
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <Avatar alt="User settings" img={user.photoURL} rounded />
+                    }
+                  >
+                    <Dropdown.Header>
+                      <span className="block text-sm">{user.name}</span>
+                    </Dropdown.Header>
+                    <Dropdown.Item>
+                      <Link to="/">Home</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/products">Products</Link>
+                    </Dropdown.Item>
+
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={logOut}>Sign out</Dropdown.Item>
+                  </Dropdown>
+                </div>
+              )}
+              {/* <button
                 type="button"
                 className="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 :focus:ring-gray-600"
                 id="user-menu-button"
@@ -406,7 +434,7 @@ function Approot() {
                   src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
                   alt="user photo"
                 />
-              </button>
+              </button> */}
               {/* Dropdown menu */}
               <div
                 className="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow :bg-gray-700 :divide-gray-600"

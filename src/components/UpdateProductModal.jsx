@@ -15,10 +15,10 @@ function UpdateProductModal({ onClose, id }) {
   });
 
   const navigate = useNavigate();
-  const [updateName, setUpdateName] = useState(data.name);
-  const [updatePrice, setUpdatePrice] = useState(data.price);
-  const [updateDescription, setUpdateDescription] = useState(data.description);
-  const [updateImage, setUpdateImage] = useState(data.image);
+  const [updateName, setUpdateName] = useState(data?.name);
+  const [updatePrice, setUpdatePrice] = useState(data?.price);
+  const [updateDescription, setUpdateDescription] = useState(data?.description);
+  const [updateImage, setUpdateImage] = useState(data?.image);
 
   const { mutate, isPending } = useMutation({
     mutationFn: () =>
@@ -88,7 +88,7 @@ function UpdateProductModal({ onClose, id }) {
             <>
               <h2 className="mb-4 text-xl font-medium text-gray-500">
                 Update product{" "}
-                <span className="text-gray-900 font-bold ">{data.name}</span>
+                <span className="text-gray-900 font-bold ">{data?.name}</span>
               </h2>
               <form action="#">
                 <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
@@ -101,7 +101,7 @@ function UpdateProductModal({ onClose, id }) {
                     </label>
                     <input
                       onChange={(e) => setUpdateName(e.target.value)}
-                      defaultValue={data.name}
+                      defaultValue={data?.name}
                       type="text"
                       name="name"
                       id="name"
@@ -120,7 +120,7 @@ function UpdateProductModal({ onClose, id }) {
                     </label>
                     <input
                       onChange={(e) => setUpdatePrice(Number(e.target.value))}
-                      defaultValue={data.price}
+                      defaultValue={data?.price}
                       type="number"
                       name="price"
                       id="price"
@@ -175,7 +175,7 @@ function UpdateProductModal({ onClose, id }) {
                       id="description"
                       className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500"
                       placeholder="Your description here"
-                      defaultValue={data.description}
+                      defaultValue={data?.description}
                     />
                   </div>
                 </div>

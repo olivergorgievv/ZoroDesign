@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { useAuthentication } from "../utils/auth.js";
+import { Dropdown, Avatar } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ onOpenModal }) {
@@ -20,23 +22,31 @@ function NavBar({ onOpenModal }) {
               <div className="flex items-center space-x-4">
                 <NavLink
                   to={"/app/products"}
-                  className={`align-center rounded hover:bg-gray-100 md:hover:bg-transparent`}
+                  className={`text-white mt-4 sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center`}
                 >
                   Dashboard
                 </NavLink>
-                <button
-                  onClick={logOut}
-                  type="button"
-                  className="text-gray-600 content-center flex border border-gray-300 hover:border-gray-500 focus:ring-4 focus:outline-none focus:ring-primary-red font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                >
-                  Log out
-                </button>
                 {(user.photoURL && (
-                  <img
-                    className="w-10 h-10 rounded-full"
-                    src={user.photoURL}
-                    alt="Rounded avatar"
-                  />
+                  <Dropdown
+                    arrowIcon={false}
+                    inline
+                    label={
+                      <Avatar alt="User settings" img={user.photoURL} rounded />
+                    }
+                  >
+                    <Dropdown.Header>
+                      <span className="block text-sm">{user.name}</span>
+                    </Dropdown.Header>
+                    <Dropdown.Item>
+                      <Link to="/app/products">Dashboard</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link to="/products">Products</Link>
+                    </Dropdown.Item>
+
+                    <Dropdown.Divider />
+                    <Dropdown.Item onClick={logOut}>Sign out</Dropdown.Item>
+                  </Dropdown>
                 )) || (
                   <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                     <svg

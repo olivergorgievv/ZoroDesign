@@ -364,7 +364,7 @@ function ProductTable() {
                   </thead>
                   <tbody>
                     {isFetching && (
-                      <div className="w-auto h-[500px] flex justify-center items-center">
+                      <div className="w-auto h-[400px] flex justify-center items-center">
                         <Loader />
                       </div>
                     )}

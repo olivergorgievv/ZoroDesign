@@ -1,5 +1,12 @@
 import { db } from "../config/firebase";
-import { doc, deleteDoc, updateDoc, addDoc } from "firebase/firestore";
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  addDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { getDocs, getDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { QueryClient } from "@tanstack/react-query";
@@ -7,7 +14,7 @@ import { QueryClient } from "@tanstack/react-query";
 const storage = getStorage();
 export const queryClient = new QueryClient();
 
-export const fetchProducts = async ({ id }) => {
+export const fetchProducts = async ({ id, searchQuery }) => {
   try {
     if (id) {
       // Fetch single product by ID
@@ -25,7 +32,15 @@ export const fetchProducts = async ({ id }) => {
     } else {
       // Fetch all products
       const productsCollectionRef = collection(db, "Products");
-      const data = await getDocs(productsCollectionRef);
+      let productsQuery = productsCollectionRef;
+      if (searchQuery) {
+        productsQuery = query(
+          productsCollectionRef,
+          where("name", ">=", searchQuery),
+          where("name", "<=", searchQuery + "\uf8ff")
+        );
+      }
+      const data = await getDocs(productsQuery);
       const products = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,

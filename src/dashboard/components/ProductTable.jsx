@@ -5,15 +5,22 @@ import { useState } from "react";
 import Loader from "../../components/UI/Loader";
 import NewProductModal from "../../components/NewProductModal";
 
-/* eslint-disable react/no-unescaped-entities */
-
 function ProductTable() {
+  // PRODUCT SEARCHING
+  const [searchQuery, setSearchQuery] = useState("");
+
   // PRODUCT FETCHING
   const { data, isFetching } = useQuery({
-    queryKey: ["Products"],
-    queryFn: ({ signal }) => fetchProducts({ signal }),
+    queryKey: ["Products", searchQuery],
+    queryFn: ({ signal }) => fetchProducts({ signal, searchQuery }),
+    enabled: true,
   });
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // MODAL LOGIC
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -55,11 +62,13 @@ function ProductTable() {
                         </svg>
                       </div>
                       <input
+                        value={searchQuery}
+                        onChange={handleSearchChange}
+                        required
                         type="text"
                         id="simple-search"
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 :bg-gray-700 :border-gray-600 :placeholder-gray-400 :text-white :focus:ring-primary-500 :focus:border-primary-500"
-                        placeholder="Search"
-                        required=""
+                        placeholder="Search by Name"
                       />
                     </div>
                   </form>
@@ -115,40 +124,6 @@ function ProductTable() {
                         </a>
                       </div>
                     </div>
-                    <button
-                      id="filterDropdownButton"
-                      data-dropdown-toggle="filterDropdown"
-                      className="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 :focus:ring-gray-700 :bg-gray-800 :text-gray-400 :border-gray-600 :hover:text-white :hover:bg-gray-700"
-                      type="button"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        className="h-4 w-4 mr-2 text-gray-400"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Filter
-                      <svg
-                        className="-mr-1 ml-1.5 w-5 h-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                      >
-                        <path
-                          clipRule="evenodd"
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        />
-                      </svg>
-                    </button>
                     <div
                       id="filterDropdown"
                       className="z-10 hidden w-56 p-3 bg-white rounded-lg shadow :bg-gray-700"
@@ -947,7 +922,7 @@ function ProductTable() {
                   type="submit"
                   className="py-2 px-3 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 :bg-red-500 :hover:bg-red-600 :focus:ring-red-900"
                 >
-                  Yes, I'm sure
+                  Yes, I&apos;m sure
                 </button>
               </div>
             </div>

@@ -1,0 +1,67 @@
+.
+├── app
+│   └── globals.css
+├── dist
+│   ├── assets
+│   │   ├── Dashboard-DPEZGPKq.svg
+│   │   ├── EmptyData-BIOt-sRm.svg
+│   │   ├── hero-D7-UA55c.svg
+│   │   ├── index-Bjecr1LQ.css
+│   │   ├── index-CppVabAS.js
+│   │   └── logo-BO_9Wen4.svg
+│   ├── index.html
+│   └── vite.svg
+├── public
+│   └── vite.svg
+├── src
+│   ├── assets
+│   │   ├── Dashboard.svg
+│   │   ├── EmptyData.svg
+│   │   ├── hero.svg
+│   │   ├── logo-white.svg
+│   │   ├── logo.svg
+│   │   ├── mockup.webp
+│   │   ├── plusIcon.svg
+│   │   └── react.svg
+│   ├── components
+│   │   ├── UI
+│   │   ├── CallToAction.jsx
+│   │   ├── Features.jsx
+│   │   ├── Footer.jsx
+│   │   ├── HeroSection.jsx
+│   │   ├── LeftCTA.jsx
+│   │   ├── LoginModal.jsx
+│   │   ├── NavBar.jsx
+│   │   ├── NewProductModal.jsx
+│   │   ├── Products.jsx
+│   │   └── UpdateProductModal.jsx
+│   ├── config
+│   │   └── firebase.js
+│   ├── dashboard
+│   │   ├── components
+│   │   └── pages
+│   ├── lib
+│   │   └── utils.js
+│   ├── pages
+│   │   ├── Home.jsx
+│   │   ├── ProductsPage.jsx
+│   │   ├── Root.jsx
+│   │   └── SingleProducts.jsx
+│   ├── utils
+│   │   ├── auth.js
+│   │   └── https.js
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+├── README.md
+├── components.json
+├── firebase.json
+├── index.html
+├── package-lock.json
+├── package.json
+├── postcss.config.js
+├── tailwind.config.js
+├── tree.txt
+└── vite.config.js
+
+16 directories, 49 files

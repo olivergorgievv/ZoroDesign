@@ -12,15 +12,26 @@ import CallToAction from "./CallToAction.jsx";
 import { useLocation } from "react-router-dom";
 
 function Products() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const location = useLocation();
   console.log(location);
   const { user } = useAuthentication();
   console.log(user);
 
   const { data, isFetching } = useQuery({
-    queryKey: ["Products"],
-    queryFn: ({ signal }) => fetchProducts({ signal }),
+    queryKey: ["Products", searchQuery],
+    queryFn: ({ signal }) => fetchProducts({ signal, searchQuery }),
+    enabled: true,
   });
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleSearchChange = () => {
+    setSearchQuery(inputValue);
+  };
 
   // MODAL FOR ADDING PRODUCTS
   const [isLoginModal, setIsLoginModal] = useState(false);
@@ -61,16 +72,66 @@ function Products() {
                   Choose your faviourite t-shirt you want to customize!
                 </h1>
                 {(user && (
-                  <button
-                    onClick={handleOpenModal}
-                    href="#"
-                    title=""
-                    className="text-white mt-4 sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center"
-                    role="button"
-                  >
-                    <img src={plusIcon} />
-                    Add Product
-                  </button>
+                  <div className="flex gap-4">
+                    <form className="flex items-center gap-4">
+                      <label htmlFor="simple-search" className="sr-only">
+                        Search
+                      </label>
+                      <div className="relative w-full">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                          <svg
+                            aria-hidden="true"
+                            className="w-5 h-5 text-gray-500"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                        <input
+                          onChange={handleInputChange}
+                          required
+                          type="text"
+                          id="simple-search"
+                          className="bg-gray-50 border border-gray-300 mt-4 sm:mt-0 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 px-8 py-2.5"
+                          placeholder="Search by Name"
+                        />
+                      </div>
+                      <button
+                        onClick={handleSearchChange}
+                        className="pt-3 align-baseline bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2.5 focus:outline-none flex items-center justify-center"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          fill="white"
+                          className="w-5 h-5 text-white"
+                          viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </form>
+                    <button
+                      onClick={handleOpenModal}
+                      href="#"
+                      title=""
+                      className="text-white mt-4 sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center"
+                      role="button"
+                    >
+                      <img src={plusIcon} />
+                      Add Product
+                    </button>
+                  </div>
                 )) || (
                   <button
                     onClick={handleOpenLogin}

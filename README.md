@@ -1,6 +1,8 @@
 
 <img width="1470" alt="Screenshot 2024-06-17 at 14 13 11" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/dd9283e4-05ee-4852-a5ba-3ec5842b5438">
 <img width="1470" alt="Screenshot 2024-06-17 at 14 14 41" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/3cc57c16-e74b-45f0-a9a9-d49a51bf5115">
+<img width="1470" alt="Screenshot 2024-06-18 at 09 44 22" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/58037d9d-b660-4ec7-97f5-3ba935f24ced">
+
 
 
 ## Overview

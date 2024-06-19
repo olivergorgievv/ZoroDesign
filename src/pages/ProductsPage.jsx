@@ -138,7 +138,6 @@ function ProductsPage() {
                       fill="#00000"
                     ></path>
                   </svg>
-
                   <span className="text-base font-medium">
                     New Products added Daily
                   </span>

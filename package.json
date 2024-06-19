@@ -29,7 +29,8 @@
     "react-konva": "^18.2.10",
     "react-router-dom": "^6.23.1",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "vercel": "^34.2.7"
   },
   "devDependencies": {
     "@types/node": "^20.12.12",

@@ -38,7 +38,7 @@ This project is a product management dashboard built with React, React Query, an
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/yourusername/product-management-dashboard.git
+   git clone https://github.com/olivergorgievv/ZoroDesign
    
 2. **Install dependencies:**
    ```sh

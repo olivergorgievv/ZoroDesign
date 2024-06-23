@@ -12,6 +12,8 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import Approot from "./dashboard/pages/approot";
 import AppProductsPage from "./dashboard/pages/AppProductsPage";
 import Authentication from "./dashboard/pages/Authentication";
+import Features from "./components/Features";
+import CallToAction from "./components/CallToAction";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,14 @@ const router = createBrowserRouter([
         path: "products",
         element: <ProductsPage />,
         children: [{ path: ":id", element: <SingleProducts /> }],
+      },
+      {
+        path: "services",
+        element: <Features />,
+      },
+      {
+        path: "contact",
+        element: <CallToAction />,
       },
     ],
   },

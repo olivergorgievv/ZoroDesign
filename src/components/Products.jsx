@@ -1,23 +1,22 @@
-import Card from "./UI/card";
-import { useState } from "react";
-import NewProductModal from "../components/NewProductModal";
-import plusIcon from "../assets/plusIcon.svg";
-import NoInfo from "./UI/NoInfo";
-import Loader from "./UI/Loader";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../utils/https";
-import { useAuthentication } from "../utils/auth.js";
-import LoginModal from "./LoginModal";
-import CallToAction from "./CallToAction.jsx";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
+import plusIcon from "../assets/plusIcon.svg";
+import NewProductModal from "../components/NewProductModal";
+import { useAuthentication } from "../utils/auth.js";
+import { fetchProducts } from "../utils/https";
+import CallToAction from "./CallToAction.jsx";
+import LoginModal from "./LoginModal";
+import Loader from "./UI/Loader";
+import NoInfo from "./UI/NoInfo";
+import Card from "./UI/card";
 
 function Products() {
   const [searchQuery, setSearchQuery] = useState("");
   const [inputValue, setInputValue] = useState("");
   const location = useLocation();
-  console.log(location);
+
   const { user } = useAuthentication();
-  console.log(user);
 
   const { data, isFetching } = useQuery({
     queryKey: ["Products", searchQuery],

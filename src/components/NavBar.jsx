@@ -3,6 +3,7 @@ import logo from "../assets/logo.svg";
 import { useAuthentication } from "../utils/auth.js";
 import { Dropdown, Avatar } from "flowbite-react";
 import { Link } from "react-router-dom";
+// import { Avatar, Dropdown, } from "flowbite-react";
 
 // eslint-disable-next-line react/prop-types
 function NavBar({ onOpenModal }) {
@@ -17,12 +18,12 @@ function NavBar({ onOpenModal }) {
           >
             <img src={logo} className="h-8" alt="Flowbite Logo" />
           </a>
-          <div className="flex gap-4 md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+          <div className="flex gap-4 justify-center items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {user && (
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-center space-x-4">
                 <NavLink
                   to={"/app/products"}
-                  className={`text-white mt-4 sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center`}
+                  className={`text-white sm:mt-0 bg-primary-red hover:bg-primary-hover focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-8 py-2.5 :bg-primary-600 :hover:bg-primary-700 focus:outline-none :focus:ring-primary-800 flex items-center justify-center`}
                 >
                   Dashboard
                 </NavLink>
@@ -128,20 +129,28 @@ function NavBar({ onOpenModal }) {
                 </NavLink>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-red md:p-0"
+                <NavLink
+                  to={"/services"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "text-primary-red" : "text-gray-900"
+                    } block py-2 px-3 rounded hover:text-primary-red md:hover:bg-transparent md:p-0`
+                  }
                 >
                   Services
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-red md:p-0"
+                <NavLink
+                  to={"/contact"}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "text-primary-red" : "text-gray-900"
+                    } block py-2 px-3 rounded hover:text-primary-red md:hover:bg-transparent md:p-0`
+                  }
                 >
                   Contact
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>

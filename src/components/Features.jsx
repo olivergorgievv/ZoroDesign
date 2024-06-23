@@ -1,13 +1,21 @@
+import { useLocation } from "react-router-dom";
+
 function Features() {
+  const location = useLocation();
+
   return (
-    <section className="bg-gray-100 :bg-gray-900">
+    <section
+      className={`bg-gray-100 ${
+        location.pathname === "/services" ? "pt-24" : " "
+      }`}
+    >
       <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-md text-center mb-8 lg:mb-16">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 :text-white">
-            Why Choose Susoft?
+            Why Choose ZonoDesign?
           </h2>
           <p className="font-light text-gray-500 :text-gray-400 sm:text-xl">
-            At Susoft, we transform your creative ideas into high-quality,
+            At ZonoDesign, we transform your creative ideas into high-quality,
             custom products. Whether you are an artist looking to showcase your
             work
           </p>

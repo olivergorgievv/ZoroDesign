@@ -10,12 +10,12 @@ function Footer() {
               href="/"
               className="flex items-center space-x-3 rtl:space-x-reverse"
             >
-              <img src={logo} className="h-8" alt="Susoft Logo" />
+              <img src={logo} className="h-8" alt="ZonoDesign Logo" />
             </a>
             <p className="my-4 font-light text-gray-500 ">
-              Susoft is a open-source library of over 400+ web components and
-              interactive elements built with the utility classes from Tailwind
-              CSS.
+              At ZonoDesign, we transform your creative ideas into high-quality,
+              custom products. Whether you are an artist looking to showcase
+              your work, a business aiming to expand your brand. life.
             </p>
             <ul className="flex mt-5 space-x-6">
               <li>
@@ -202,9 +202,9 @@ function Footer() {
         </div>
         <hr className="my-6 border-gray-200 sm:mx-autolg:my-8" />
         <span className="block text-sm text-center text-gray-500">
-          © 2021-2022{" "}
+          © 2024-2025{" "}
           <a href="#" className="hover:underline">
-            Susoft™
+            ZonoDesign™
           </a>
           . All Rights Reserved.
         </span>

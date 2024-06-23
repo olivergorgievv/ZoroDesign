@@ -1,15 +1,23 @@
+import { useLocation } from "react-router-dom";
+
 function CallToAction() {
+  const location = useLocation();
+
   return (
-    <section className="bg-gray-100 pb-8">
+    <section
+      className={`bg-gray-100 pb-8 ${
+        location.pathname === "/contact" ? "pt-24" : ""
+      }`}
+    >
       <div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
         <div className="mx-auto max-w-screen-md text-center">
           <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
             Join Our Community
           </h2>
           <p className="mb-6 font-light text-gray-500 md:text-lg">
-            At Susoft, we are more than just a print-on-demand service. We are a
-            community of creators and innovators. Follow us on social media for
-            design tips, product updates..
+            At ZonoDesign, we are more than just a print-on-demand service. We
+            are a community of creators and innovators. Follow us on social
+            media for design tips, product updates..
           </p>
           <form action="#" className="mx-auto max-w-screen-sm">
             <div className="flex items-center mb-3">

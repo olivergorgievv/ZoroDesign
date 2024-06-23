@@ -14,6 +14,7 @@ import AppProductsPage from "./dashboard/pages/AppProductsPage";
 import Authentication from "./dashboard/pages/Authentication";
 import Features from "./components/Features";
 import CallToAction from "./components/CallToAction";
+import PrivateRoute from "./dashboard/pages/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -38,11 +39,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
-    element: <Approot />,
+    element: <PrivateRoute element={<Approot />} />, // Wrap Approot with PrivateRoute
     children: [
       {
         path: "products",
-        element: <AppProductsPage />,
+        element: <PrivateRoute element={<AppProductsPage />} />,
         index: true,
       },
       {

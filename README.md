@@ -1,7 +1,9 @@
 
-<img width="1470" alt="Screenshot 2024-06-17 at 14 13 11" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/dd9283e4-05ee-4852-a5ba-3ec5842b5438">
-<img width="1470" alt="Screenshot 2024-06-17 at 14 14 41" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/3cc57c16-e74b-45f0-a9a9-d49a51bf5115">
-<img width="1470" alt="Screenshot 2024-06-18 at 09 44 22" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/58037d9d-b660-4ec7-97f5-3ba935f24ced">
+<img width="1470" alt="Screenshot 2024-06-23 at 11 57 38" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/4e41ff32-ca90-43ab-af26-558e4aef3855">
+<img width="1470" alt="Screenshot 2024-06-23 at 11 57 58" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/edacf8b1-34d4-4b0a-b014-f05b25920d0e">
+<img width="1470" alt="Screenshot 2024-06-23 at 12 00 57" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/fd8c3b8e-e223-401b-9b83-a937bbd86890">
+<img width="1470" alt="Screenshot 2024-06-23 at 12 00 20" src="https://github.com/olivergorgievv/ZoroDesign/assets/111359274/9c0e780c-f581-4b8c-8241-28beade5b58f">
+
 
 
 

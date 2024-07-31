@@ -8,12 +8,17 @@ export default {
         nav: "900px",
       },
       animation: {
-        marquee: "marquee 45s linear infinite",
+        marquee: "marquee 35s linear infinite",
+        slowMarquee: "slowMarquee 60s linear infinite",
       },
       keyframes: {
         marquee: {
-          "0%": { transform: "translateX(0%)" },
-          "100%": { transform: "translateX(-50%)" },
+          "0%": { transform: "translateY(0%)" },
+          "100%": { transform: "translateY(-50%)" },
+        },
+        slowMarquee: {
+          "0%": { transform: "translateY(0%)" },
+          "100%": { transform: "translateY(-50%)" },
         },
       },
       colors: {

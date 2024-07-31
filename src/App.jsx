@@ -6,6 +6,7 @@ import RootPage from "./pages/Root";
 import Home from "./pages/Home";
 import ProductsPage from "./pages/ProductsPage";
 import SingleProducts from "./pages/SingleProducts";
+import AliDropship from "./pages/AliDropship";
 import { QueryClientProvider } from "@tanstack/react-query";
 
 // Application
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <CallToAction />,
+      },
+      {
+        path: "alidropship",
+        element: <AliDropship />,
       },
     ],
   },
